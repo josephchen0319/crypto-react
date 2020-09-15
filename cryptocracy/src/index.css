@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: Orator Std;
+}
+
+header {
+  min-height: 100px;
+}
+
+nav .navbar-logo {
+  max-width: 2rem !important;
+}
+
+div .nav-item:hover {
+  background-color: #f4f4f4;
+}
+
+div .nav-item {
+  margin-top: 30px;
+  min-height: 30px !important;
+}
+
+form .inherit-line-height {
+  line-height: inherit;
+}
+
+div.input-field input.search-input {
+  margin: 0 0 0 0;
+}
+
+li .large-input {
+  width: 80% !important;
+}
+
+a {
+  text-decoration: none;
+}
