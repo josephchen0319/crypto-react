@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import M from "materialize-css";
 import { Link } from "react-router-dom";
-import SearchForm from "./forms/SearchForm";
+import SearchForm from "../forms/SearchForm";
 
 const Sidenav = () => {
   useEffect(() => {

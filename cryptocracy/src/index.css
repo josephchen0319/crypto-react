@@ -35,3 +35,17 @@ li .large-input {
 a {
   text-decoration: none;
 }
+
+button.btn-unset-style {
+  all: unset;
+  cursor: pointer;
+}
+
+button.btn-unset-style:focus,
+button.btn-unset-style:hover {
+  background-color: #f4f4f4;
+}
+
+.no-margin {
+  margin: 0 0 0 0;
+}
