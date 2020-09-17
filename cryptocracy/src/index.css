@@ -32,6 +32,10 @@ li .large-input {
   width: 80% !important;
 }
 
+i.search-icon {
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
 }
@@ -48,4 +52,28 @@ button.btn-unset-style:hover {
 
 .no-margin {
   margin: 0 0 0 0;
+}
+
+img.market-table-coin-image {
+  width: 25px;
+  vertical-align: middle;
+}
+
+i.favorite-star {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.for-more-padding-in-table {
+  padding-left: 15px;
+}
+
+/* pagination */
+ul.pagination li.active {
+  background-color: black;
 }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import LoginForm from "../components/forms/LoginForm";
 import { Modal } from "../components/misc/Modal";
 import { status } from "../components/forms/SignupForm";
-import { isNonEmptyArray } from "@apollo/client/utilities";
 
 class Login extends Component {
   render() {

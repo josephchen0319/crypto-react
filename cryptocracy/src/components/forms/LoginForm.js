@@ -1,18 +1,21 @@
 import React from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useApolloClient } from "@apollo/client";
 import Loading from "../misc/Loading";
 import { LOGIN } from "../../mutations/member";
 import { useHistory } from "react-router-dom";
+import { verifyLoggedIn, checkLoggedIn } from "../../App";
 
 const LoginForm = ({ classes }) => {
   let input_data = {};
   let history = useHistory();
+  const client = useApolloClient();
 
   const [tokenAuth, { loading, error }] = useMutation(LOGIN, {
     onCompleted({ tokenAuth }) {
       localStorage.setItem("token", tokenAuth.token);
       history.push("/");
-      // client.writeQuery({ query: LOGIN, data: { isLoggedIn: true } });
+      client.resetStore();
+      verifyLoggedIn();
     },
   });
 

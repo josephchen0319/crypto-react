@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import M from "materialize-css";
+import { useHistory } from "react-router-dom";
 
 const SearchForm = ({ classes }) => {
+  const history = useHistory();
+
   const handleEnter = (event) => {
     if (event.key === "Enter") {
       let input = event.target.value;
       // Search for particular coin
-      console.log(input);
+      history.push("/coin_detail/" + input);
     }
   };
 
@@ -24,7 +27,7 @@ const SearchForm = ({ classes }) => {
   return (
     <form className="search-form">
       <div className="input-field row valign-wrapper">
-        <i className="material-icons col l1">search</i>
+        <i className="material-icons col l1 search-icon">search</i>
         <input
           type="search"
           className={classes + " col l10 search-input"}

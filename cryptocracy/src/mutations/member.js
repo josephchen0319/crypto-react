@@ -37,3 +37,23 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const FOLLOW_COIN = gql`
+  mutation FollowCoin($cryptoId: String!, $cryptoSymbol: String!) {
+    followCoin(input: { cryptoId: $cryptoId, cryptoSymbol: $cryptoSymbol }) {
+      following {
+        id
+        cryptoId
+        cryptoSymbol
+      }
+    }
+  }
+`;
+
+export const UNFOLLOW_COIN = gql`
+  mutation FollowCoin($id: String!) {
+    unfollowCoin(input: { id: $id }) {
+      ok
+    }
+  }
+`;

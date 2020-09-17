@@ -33,8 +33,6 @@ const SignupForm = ({ classes }) => {
     input_data[target.name] = target.value.trim();
   };
 
-  let error_message = {};
-
   const form = (error_message = "") => {
     return (
       <div className="row">
