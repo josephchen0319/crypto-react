@@ -57,3 +57,42 @@ export const UNFOLLOW_COIN = gql`
     }
   }
 `;
+
+export const CREATE_GROUP = gql`
+  mutation CreateFilterGroup(
+    $groupName: String
+    $filterDetails: [FilterDetailInputType]
+  ) {
+    createFilterGroup(
+      input: { groupName: $groupName, filterDetails: $filterDetails }
+    ) {
+      filterGroup {
+        id
+        groupName
+        state
+        filterDetails {
+          edges {
+            node {
+              id
+              firstArgument
+              secondArgument
+              filter {
+                id
+                filterName
+                filterContent
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_FILTER_GROUP = gql`
+  mutation DeleteFilterGroup($id: String!) {
+    deleteFilterGroup(input: { id: $id }) {
+      ok
+    }
+  }
+`;

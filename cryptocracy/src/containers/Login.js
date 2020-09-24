@@ -9,12 +9,12 @@ class Login extends Component {
       <div className="container">
         <h1 className="center-align">Login</h1>
         <Modal header={status().register_status} status="register_status" />
-        <LoginForm />
+        <LoginForm verifyLoggedIn={this.props.verifyLoggedIn} />
       </div>
     ) : (
       <div className="container">
         <h1 className="center-align">Login</h1>
-        <LoginForm />
+        <LoginForm verifyLoggedIn={this.props.verifyLoggedIn} />
       </div>
     );
   }

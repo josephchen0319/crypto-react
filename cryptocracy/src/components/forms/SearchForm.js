@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 
 const SearchForm = ({ classes }) => {
   const history = useHistory();
-
   const handleEnter = (event) => {
     if (event.key === "Enter") {
       let input = event.target.value;
@@ -14,9 +13,8 @@ const SearchForm = ({ classes }) => {
   };
 
   useEffect(() => {
+    const search_input = document.getElementById("navbar-search-input");
     let elems = document.querySelectorAll(".search-input");
-    // let reader = new FileReader();
-    // reader.readAsText();
     const json_data = require("../../data/search_autocomplete.json");
     let options = {
       data: json_data,
@@ -32,6 +30,7 @@ const SearchForm = ({ classes }) => {
           type="search"
           className={classes + " col l10 search-input"}
           onKeyDown={handleEnter}
+          // id="navbar-search-input"
           required
         />
         <i className="material-icons inherit-line-height col l1">close</i>

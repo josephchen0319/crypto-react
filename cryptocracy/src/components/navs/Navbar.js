@@ -4,14 +4,10 @@ import logo from "../../images/Logo3@2x.png";
 import Sidenav from "./Sidenav";
 import NavContent from "./NavContent";
 import { useApolloClient } from "@apollo/client";
-import { IS_LOGGED_IN } from "../../queries/current_state";
 import { useHistory } from "react-router-dom";
-
-const Navbar = ({ displayContent }) => {
+import { checkLoggedIn } from "../../App";
+const Navbar = ({ verifyLoggedIn }) => {
   const client = useApolloClient();
-  const { isLoggedIn } = client.readQuery({
-    query: IS_LOGGED_IN,
-  });
   const history = useHistory();
 
   const handleLogout = (e) => {
@@ -65,6 +61,7 @@ const Navbar = ({ displayContent }) => {
     );
   };
 
+  let { isLoggedIn } = checkLoggedIn();
   return (
     <div>
       <nav className="z-depth-0">

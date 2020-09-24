@@ -54,6 +54,10 @@ button.btn-unset-style:hover {
   margin: 0 0 0 0;
 }
 
+div.card-content.no-padding-bottom {
+  padding-bottom: 0px;
+}
+
 img.market-table-coin-image {
   width: 25px;
   vertical-align: middle;
@@ -76,4 +80,22 @@ i.favorite-star {
 /* pagination */
 ul.pagination li.active {
   background-color: black;
+}
+
+ul.collapsible li div.group-category {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+ul.collapsible li div.collapsible-body.padding-1rem {
+  padding: 1rem;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+div.display-block {
+  display: block;
 }

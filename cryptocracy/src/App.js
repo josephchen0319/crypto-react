@@ -19,58 +19,73 @@ import {
   InMemoryCache,
   ApolloProvider,
   HttpLink,
+  ApolloLink,
 } from "@apollo/client";
 
 const cache = new InMemoryCache();
-const client = new ApolloClient({
-  link: new HttpLink({
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+  operation.setContext(({ headers }) => ({
     headers: {
-      Authorization: localStorage.getItem("token")
-        ? `JWT ${localStorage.getItem("token")}`
-        : "",
+      ...headers,
+      Authorization: token ? `JWT ${token}` : ``,
     },
-    uri: "http://127.0.0.1:8000/graphql/",
-  }),
+  }));
+  return forward(operation);
+});
+
+let link = ApolloLink.from([
+  authLink,
+  new HttpLink({ uri: "http://127.0.0.1:8000/graphql/" }),
+]);
+
+export const client = new ApolloClient({
+  link,
   cache,
 });
 
-export const verifyLoggedIn = () => {
+export const checkLoggedIn = () => {
   client.writeQuery({
     query: IS_LOGGED_IN,
     data: {
       isLoggedIn: !!localStorage.getItem("token"),
     },
   });
-  setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
-    const token = localStorage.getItem("token");
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        Authorization: token ? `JWT ${token}` : "",
-      },
-    };
-  });
-};
-
-export const checkLoggedIn = () => {
   return client.readQuery({
     query: IS_LOGGED_IN,
   });
 };
 
 function App() {
+  const verifyLoggedIn = () => {
+    let { isLoggedIn } = checkLoggedIn();
+    // let context = setContext((_, { headers }) => {
+    //   const token = localStorage.getItem("token");
+    //   // return the headers to the context so httpLink can read them
+    //   return {
+    //     headers: {
+    //       ...headers,
+    //       Authorization: token ? `JWT ${token}` : "",
+    //     },
+    //   };
+    // });
+
+    return !!localStorage.getItem("token") && isLoggedIn
+      ? logged_in_content()
+      : guest_content();
+  };
+
   let logged_in_content = () => {
     return (
       <Switch>
         <Route exact path="/" component={() => <Home />} />
         <Route
           exact
-          path="/coin_detail/:coin_id/:coin_symbol"
+          path="/coin_detail/:coin_id"
           component={() => <CoinDetail />}
         />
-        <Route exact path="/screener" component={() => <Screener />} />
+        <Route exact path="/screener" render={() => <Screener />} />
         <Route path="/trending" component={() => <Trending />} />
         <Route path="/community" component={() => <Community />} />
         <Route path="/notification" component={() => <Notification />} />
@@ -83,26 +98,27 @@ function App() {
   let guest_content = () => {
     return (
       <Switch>
-        <Route exact path="/" component={() => <Home />} />
         <Route
           exact
-          path="/coin_detail/:coin_id/:coin_symbol"
+          path="/coin_detail/:coin_id"
           component={() => <CoinDetail />}
         />
-        <Route exact path="/screener" component={() => <Screener />} />
+        <Route exact path="/screener" render={() => <Screener />} />
         <Route path="/trending" component={() => <Trending />} />
         <Route path="/community" component={() => <Community />} />
         <Route path="/signup" component={() => <Signup />} />
-        <Route path="/login" component={() => <Login />} />
+        <Route
+          path="/login"
+          component={() => <Login verifyLoggedIn={verifyLoggedIn} />}
+        />
+        <Route
+          path="/:page"
+          component={() => <Home verifyLoggedIn={verifyLoggedIn} />}
+        />
       </Switch>
     );
   };
-
-  verifyLoggedIn();
-  const { isLoggedIn } = checkLoggedIn;
-
-  const displayContent = isLoggedIn ? logged_in_content() : guest_content();
-
+  let { isLoggedIn } = checkLoggedIn();
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -110,7 +126,7 @@ function App() {
           <header>
             <Navbar />
           </header>
-          {displayContent}
+          {isLoggedIn ? logged_in_content() : guest_content()}
         </div>
       </Router>
     </ApolloProvider>

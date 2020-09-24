@@ -1,56 +1,120 @@
 import React from "react";
-import { useQuery, useApolloClient, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { FOLLOW_COIN, UNFOLLOW_COIN } from "../../mutations/member";
+import { checkLoggedIn } from "../../App";
+import M from "materialize-css";
+import { useDispatch, useSelector } from "react-redux";
+import { GET_FOLLOWING_COINS } from "../../queries/member";
+import { useQuery } from "@apollo/client";
+// import { fetchRemoteData } from "../../features/following/followingSlice";
 
-export const Following = ({ cryptoId, cryptoSymbol, followingCoins }) => {
-  const [followCoin, { error, loading, data }] = useMutation(FOLLOW_COIN, {
-    variables: {
-      cryptoId,
-      cryptoSymbol,
-    },
+export const Following = ({ cryptoId, cryptoSymbol }) => {
+  const following_coins = useSelector((state) => state.following);
+  const dispatch = useDispatch();
+  let { isLoggedIn } = checkLoggedIn();
+
+  const { data, error, loading } = useQuery(GET_FOLLOWING_COINS, {
+    onError: (err) => {},
   });
 
-  const getId = () => {
-    for (let coin of followingCoins) {
-      if (coin.node.cryptoId === cryptoId) return coin.node.id;
-    }
-    return false;
-  };
+  // if (loading && following_coins.status !== "loading") {
+  //   dispatch(
+  //     fetchFollowingData({
+  //       status: "loading",
+  //     })
+  //   );
+  // }
 
-  //9/18 unfollow coin
-  const [
-    unfollowCoin,
-    { error: unfollowError, loading: unfollowLoading, data: unfollowData },
-  ] = useMutation(UNFOLLOW_COIN, {
-    variables: {
-      id: getId(),
-    },
-    skip: getId(),
-  });
+  // if (error && following_coins.status !== "error") {
+  //   dispatch(
+  //     fetchFollowingData({
+  //       status: "error",
+  //       error: error.message,
+  //     })
+  //   );
+  // }
 
-  const handleClick = (e) => {
-    if (e.target.innerHTML === "star_border") {
-      e.target.innerHTML = "star";
-      followCoin();
-    } else {
-      e.target.innerHTML = "star_border";
-      unfollowCoin();
-    }
-  };
+  // if (data && following_coins.status !== "success") {
+  //   let following = data.me.followingCoins.edges;
+  //   console.log("data: " + following);
+  //   dispatch(
+  //     fetchFollowingData({
+  //       data: following,
+  //       status: "success",
+  //       error: null,
+  //     })
+  //   );
+  // }
 
-  const checkFollow = () => {
-    let flag = false;
-    for (let c of followingCoins) {
-      if (cryptoId === c.node.cryptoId) {
-        flag = true;
-      }
-    }
-    return flag ? "star" : "star_border";
-  };
+  // const [followCoin] = useMutation(FOLLOW_COIN, {
+  //   variables: {
+  //     cryptoId,
+  //     cryptoSymbol,
+  //   },
+  //   onError: (err) => {},
+  // });
+
+  // const getId = () => {
+  //   if (following_coins) {
+  //     for (let coin of following_coins.data) {
+  //       if (coin.node.cryptoId === cryptoId) return coin.node.id;
+  //     }
+  //   }
+  //   return false;
+  // };
+
+  // const [unfollowCoin] = useMutation(UNFOLLOW_COIN, {
+  //   variables: {
+  //     id: getId(),
+  //   },
+  //   onError: (err) => {},
+  // });
+
+  // const handleClick = (e) => {
+  //   if (e.target.innerHTML === "star_border" && isLoggedIn) {
+  //     e.target.innerHTML = "star";
+  //     followCoin();
+  //   } else {
+  //     e.target.innerHTML = "star_border";
+  //     unfollowCoin();
+  //   }
+  // };
+
+  // const checkFollow = () => {
+  //   let flag = false;
+  //   if (following_coins) {
+  //     for (let c of following_coins.data) {
+  //       if (cryptoId === c.node.cryptoId) {
+  //         flag = true;
+  //       }
+  //     }
+  //   }
+  //   return flag ? "star" : "star_border";
+  // };
+
+  // const handleToast = () => {
+  //   M.toast({ html: "Login to complete the action", displayLength: 1500 });
+  // };
+
+  // const guestContent = () => {
+  //   if (!isLoggedIn) {
+  //     return (
+  //       <a onClick={handleToast} className="black-text" href="/#">
+  //         <i className="material-icons col favorite-star" onClick={handleClick}>
+  //           {checkFollow()}
+  //         </i>
+  //       </a>
+  //     );
+  //   }
+  //   return (
+  //     <i className="material-icons col favorite-star" onClick={handleClick}>
+  //       {checkFollow()}
+  //     </i>
+  //   );
+  // };
 
   return (
-    <i className="material-icons col favorite-star" onClick={handleClick}>
-      {checkFollow()}
-    </i>
+    <h1>hello</h1>
+    // guestContent()
   );
 };

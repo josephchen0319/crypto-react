@@ -1,6 +1,5 @@
 import React from "react";
-import M from "materialize-css";
-import { status } from "../forms/SignupForm";
+// import { status } from "../forms/SignupForm";
 
 export const Pagintation = () => {
   return (

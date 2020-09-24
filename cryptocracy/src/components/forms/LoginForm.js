@@ -3,20 +3,20 @@ import { useMutation, useApolloClient } from "@apollo/client";
 import Loading from "../misc/Loading";
 import { LOGIN } from "../../mutations/member";
 import { useHistory } from "react-router-dom";
-import { verifyLoggedIn, checkLoggedIn } from "../../App";
 
-const LoginForm = ({ classes }) => {
+const LoginForm = ({ verifyLoggedIn }) => {
   let input_data = {};
   let history = useHistory();
   const client = useApolloClient();
 
   const [tokenAuth, { loading, error }] = useMutation(LOGIN, {
     onCompleted({ tokenAuth }) {
-      localStorage.setItem("token", tokenAuth.token);
-      history.push("/");
       client.resetStore();
+      localStorage.setItem("token", tokenAuth.token);
       verifyLoggedIn();
+      history.push("/");
     },
+    onError(err) {},
   });
 
   const handleSubmit = (e) => {
@@ -79,6 +79,7 @@ const LoginForm = ({ classes }) => {
 
   if (error) {
     let error_message = "Make sure your username or password are correct";
+    console.log("login form error message: " + error);
     return form(error_message);
   }
 

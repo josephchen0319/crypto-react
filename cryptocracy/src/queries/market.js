@@ -1,18 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_MARKET_DATA = gql`
-  query GetMarketData(
-    $vsCurrency: String
-    $order: String
-    $page: Int
-    $perPage: Int
-  ) {
-    coinlist(
-      vsCurrency: $vsCurrency
-      order: $order
-      page: $page
-      perPage: $perPage
-    ) {
+  query GetMarketData($page: Int) {
+    coinlist(page: $page) {
       id
       symbol
       name
@@ -53,6 +43,59 @@ export const GET_MARKET_DATA = gql`
     }
   }
 `;
+// export const GET_MARKET_DATA = gql`
+//   query GetMarketData(
+//     $vsCurrency: String
+//     $order: String
+//     $page: Int
+//     $perPage: Int
+//   ) {
+//     coinlist(
+//       vsCurrency: $vsCurrency
+//       order: $order
+//       page: $page
+//       perPage: $perPage
+//     ) {
+//       id
+//       symbol
+//       name
+//       image
+//       currentPrice
+//       marketCap
+//       marketCapRank
+//       fullyDilutedValuation
+//       totalVolume
+//       high24h
+//       low24h
+//       priceChange24h
+//       priceChangePercentage24h
+//       marketCapChange24h
+//       marketCapChangePercentage24h
+//       circulatingSupply
+//       totalSupply
+//       maxSupply
+//       ath
+//       athChangePercentage
+//       athDate
+//       atl
+//       atlChangePercentage
+//       atlDate
+//       lastUpdated
+//       priceChangePercentage14dInCurrency
+//       priceChangePercentage1hInCurrency
+//       priceChangePercentage1yInCurrency
+//       priceChangePercentage200dInCurrency
+//       priceChangePercentage24hInCurrency
+//       priceChangePercentage30dInCurrency
+//       priceChangePercentage7dInCurrency
+//       roi {
+//         currency
+//         times
+//         percentage
+//       }
+//     }
+//   }
+// `;
 
 export const GET_COIN_DETAIL = gql`
   query GetCoinDetail($id: String!) {

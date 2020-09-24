@@ -1,32 +1,30 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import Loading from "../misc/Loading";
-import { Following } from "./Following";
-import { GET_COIN_DETAIL } from "../../queries/market";
+// import Loading from "../misc/Loading";
+// import { Following } from "./Following";
+// import { GET_COIN_DETAIL } from "../../queries/market";
 import { useParams } from "react-router-dom";
 
 export const Detail = () => {
   const params = useParams();
   const coin_id = params.coin_id;
-  const coin_symbol = params.coin_symbol;
-  console.log(coin_symbol);
+  // const coin_symbol = params.coin_symbol;
 
-  const { error, loading, data } = useQuery(GET_COIN_DETAIL, {
-    variables: {
-      id: coin_id,
-    },
-  });
+  // const { error, loading, data } = useQuery(GET_COIN_DETAIL, {
+  //   variables: {
+  //     id: coin_id,
+  //   },
+  // });
 
-  if (error) return <div>Somthing went wrong</div>;
-  if (loading) {
-    return (
-      <div className="row">
-        <div className="col s12 center-align">
-          <Loading size="big" />
-        </div>
-      </div>
-    );
-  }
+  // if (error) return <div>Somthing went wrong</div>;
+  // if (loading) {
+  //   return (
+  //     <div className="row">
+  //       <div className="col s12 center-align">
+  //         <Loading size="big" />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // const diagram = (coin_id) => {
   //   return (
