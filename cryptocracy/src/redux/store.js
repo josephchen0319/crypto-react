@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import marketReducer from "../features/market/marketSlice";
-import followingReducer from "../features/market/marketSlice";
-import postsReducer from "../features/market/postsSlice";
+import followingReducer from "../features/following/followingSlice";
 import groupReducer from "../features/filter_group/groupSlice";
+import SearchResultReducer from "../features/market/searchResultSlice";
 
 export default configureStore({
   reducer: {
     market: marketReducer,
     following: followingReducer,
-    posts: postsReducer,
+    searchResult: SearchResultReducer,
     group: groupReducer,
   },
 });

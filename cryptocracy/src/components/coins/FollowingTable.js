@@ -1,8 +1,8 @@
 import React from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import Loading from "../misc/Loading";
 import { Following } from "./Following";
-import { GET_MARKET_DATA } from "../../queries/market";
+import { GET_MARKET_DATA, GET_COINS_BY_ID } from "../../queries/market";
 import { Link } from "react-router-dom";
 import { checkLoggedIn } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,54 +12,13 @@ import { GET_FOLLOWING_COINS } from "../../queries/member";
 import { FOLLOW_COIN, UNFOLLOW_COIN } from "../../mutations/member";
 import { fetchFollowingData } from "../../features/following/followingSlice";
 
-export const MarketTable = () => {
-  const market_data = useSelector((state) => state.market);
+export const FollowingTable = () => {
+  // const market_data = useSelector((state) => state.market);
   const following = useSelector((state) => state.following);
   const dispatch = useDispatch();
   let { isLoggedIn } = checkLoggedIn();
 
-  //MARKET DATA
-  const params = useParams();
-  let current_page = parseInt(params.page);
-  if (isNaN(current_page)) current_page = 1;
-
-  const { data, loading, error } = useQuery(GET_MARKET_DATA, {
-    variables: {
-      page: current_page,
-    },
-  });
-
-  if (loading && market_data.status !== "loading") {
-    dispatch(
-      fetchMarketData({
-        status: "loading",
-      })
-    );
-  }
-
-  if (error && market_data.status !== "error") {
-    dispatch(
-      fetchMarketData({
-        status: "error",
-        error: error.message,
-      })
-    );
-  }
-
-  if (data && market_data.status !== "success") {
-    let { coinlist } = data;
-    let unique_list = coinlist.filter((v, i) => coinlist.indexOf(v) === i);
-    dispatch(
-      fetchMarketData({
-        data: unique_list,
-        status: "success",
-        error: null,
-        page: current_page,
-      })
-    );
-  }
-
-  //FOLLOWING DATA
+  //MY FOLLOWING
   const {
     data: following_data,
     error: following_error,
@@ -111,8 +70,75 @@ export const MarketTable = () => {
     );
   };
 
+  //Following DATA
+
+  const [getCoinsById, { loading, error }] = useLazyQuery(GET_COINS_BY_ID, {
+    onCompleted: (data) => {
+      console.log(data);
+      let { coinListByIds } = data;
+      let unique_list = coinListByIds.filter(
+        (v, i) => coinListByIds.indexOf(v) === i
+      );
+      dispatch(
+        fetchFollowingData({
+          followingDetailData: unique_list,
+          followingCoinsDetailStatus: "success",
+          error: null,
+        })
+      );
+    },
+  });
+
+  if (
+    following.data.length > 0 &&
+    following.followingCoinsDetailStatus !== "success"
+  ) {
+    if (following.followingCoinsDetailStatus === "idle") {
+      let ids = following.data.reduce((acc, coin) => {
+        if (acc) return acc + "," + coin.cryptoId;
+        return coin.cryptoId;
+      }, "");
+      console.log(ids);
+      getCoinsById({
+        variables: {
+          ids: ids,
+        },
+      });
+    }
+
+    if (loading && following.followingCoinsDetailStatus !== "loading") {
+      dispatch(
+        fetchFollowingData({
+          followingCoinsDetailStatus: "loading",
+        })
+      );
+    }
+
+    if (error && following.followingCoinsDetailStatus !== "error") {
+      dispatch(
+        fetchFollowingData({
+          followingCoinsDetailStatus: "error",
+          error: error.message,
+        })
+      );
+    }
+  }
+
+  // if (data && following.followingCoinsDetailStatus !== "success") {
+  //   console.log(data);
+  //   let { coinlist } = data;
+  //   let unique_list = coinlist.filter((v, i) => coinlist.indexOf(v) === i);
+  //   dispatch(
+  //     fetchFollowingData({
+  //       followingDetailData: unique_list,
+  //       followingCoinsDetailStatus: "success",
+  //       error: null,
+  //     })
+  //   );
+  // }
+
   const display = () => {
-    if (market_data.status === "loading") {
+    if (following.status !== "success") {
       return (
         <div className="row">
           <div className="col s6 offset-s3 center-align">
@@ -120,7 +146,10 @@ export const MarketTable = () => {
           </div>
         </div>
       );
-    } else if (market_data.status === "success") {
+    } else if (
+      following.status === "success" &&
+      following.followingCoinsDetailStatus === "success"
+    ) {
       const currentPriceformatter = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -132,7 +161,7 @@ export const MarketTable = () => {
         minimumFractionDigits: 0,
       });
 
-      let display_data = market_data.data.map((coin) => {
+      let display_data = following.followingDetailData.map((coin) => {
         let marketCapRank = coin.marketCapRank ? coin.marketCapRank : "N/A";
         let priceChangePercentage1hInCurrency = coin.priceChangePercentage1hInCurrency
           ? coin.priceChangePercentage1hInCurrency.toFixed(2) + "%"
@@ -217,7 +246,7 @@ export const MarketTable = () => {
       return (
         <div className="row">
           <div className="col s6 offset-s3 center-align">
-            <h3>Something went wrong!</h3>
+            <h3>Empty</h3>
           </div>
         </div>
       );

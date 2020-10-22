@@ -36,6 +36,7 @@ export const GET_FILTER_GROUPS = gql`
                     id
                     filterName
                     filterContent
+                    filterToApiField
                   }
                 }
               }

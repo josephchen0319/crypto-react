@@ -79,7 +79,6 @@ function App() {
   let logged_in_content = () => {
     return (
       <Switch>
-        <Route exact path="/" component={() => <Home />} />
         <Route
           exact
           path="/coin_detail/:coin_id"
@@ -91,6 +90,7 @@ function App() {
         <Route path="/notification" component={() => <Notification />} />
         <Route path="/following" component={() => <Following />} />
         <Route path="/saved" component={() => <SavedGroup />} />
+        <Route path="/:page" component={() => <Home />} />
       </Switch>
     );
   };

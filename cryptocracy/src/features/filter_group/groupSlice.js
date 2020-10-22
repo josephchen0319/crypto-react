@@ -39,6 +39,7 @@ const groupSlice = createSlice({
             filterDetail.filterId = ed.node.filter.id;
             filterDetail.filterName = ed.node.filter.filterName;
             filterDetail.filterContent = ed.node.filter.filterContent;
+            filterDetail.filterToApiField = ed.node.filter.filterToApiField;
             return filterDetail;
           });
           return group;
@@ -59,6 +60,7 @@ const groupSlice = createSlice({
       }
     },
     updateNewGroup: (state, { payload }) => {
+      console.log(payload);
       if (payload.groupName) state.newGroup.groupName = payload.groupName;
       if (payload.filterDetails)
         state.newGroup.filterDetails = payload.filterDetails;
@@ -78,6 +80,7 @@ const groupSlice = createSlice({
         obj.filterId = e.node.filter.id;
         obj.filterName = e.node.filter.filterName;
         obj.filterContent = e.node.filter.filterContent;
+        obj.filterToApiField = e.node.filter.filterToApiField;
         return obj;
       });
 
@@ -104,6 +107,21 @@ const groupSlice = createSlice({
     deleteGroup: (state, { payload }) => {
       state.data = state.data.filter((d) => d.groupId !== payload.groupId);
     },
+    deleteGroupFilter: (state, { payload }) => {
+      let targetGroupId = payload.copyOfFilterGroup.groupId;
+      state.data = state.data.map((g) => {
+        if (targetGroupId === g.groupId) return payload.copyOfFilterGroup;
+        return g;
+      });
+    },
+    updateGroup: (state, { payload }) => {
+      let targetGroupId = payload.copyOfFilterGroup.groupId;
+      state.data = state.data.map((g) => {
+        if (targetGroupId === g.groupId) return payload.copyOfFilterGroup;
+        return g;
+      });
+      console.log(payload);
+    },
   },
 });
 
@@ -116,6 +134,8 @@ export const {
   updateTarget,
   addGroupFilter,
   deleteGroup,
+  deleteGroupFilter,
+  updateGroup,
 } = groupSlice.actions;
 
 export default groupSlice.reducer;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Category } from "../components/filters/Category";
 import { NewGroup } from "../components/filters/NewGroup";
+import { SearchResults } from "../components/filters/SearchResults";
 
 class Screener extends Component {
   render() {
@@ -14,6 +15,11 @@ class Screener extends Component {
           <div className="row">
             <div className="col s12">
               <NewGroup />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col s12">
+              <SearchResults />
             </div>
           </div>
         </div>

@@ -72,6 +72,7 @@ export const Category = () => {
                 filterId: e.target.id,
                 filterName: e.target.dataset.name,
                 filterContent: e.target.dataset.content,
+                filterToApiField: e.target.dataset.apiField,
               },
             ],
           })
@@ -93,6 +94,7 @@ export const Category = () => {
                 filterId: e.target.id,
                 filterName: e.target.dataset.name,
                 filterContent: e.target.dataset.content,
+                filterToApiField: e.target.dataset.apiField,
               },
             ],
           })
@@ -121,6 +123,7 @@ export const Category = () => {
             onClick={handleClick}
             data-name={f.node?.filterName}
             data-content={f.node?.filterContent}
+            data-api-field={f.node?.filterToApiField}
           >
             {f.node?.filterName}
           </div>
@@ -137,6 +140,7 @@ export const Category = () => {
           onClick={handleClick}
           data-name={f.node?.filterName}
           data-content={f.node?.filterContent}
+          data-api-field={f.node?.filterToApiField}
         >
           {f.node?.filterName}
         </div>
@@ -152,6 +156,7 @@ export const Category = () => {
           onClick={handleClick}
           data-name={f.node?.filterName}
           data-content={f.node?.filterContent}
+          data-api-field={f.node?.filterToApiField}
         >
           {f.node?.filterName}
         </div>
@@ -167,6 +172,7 @@ export const Category = () => {
           onClick={handleClick}
           data-name={f.node?.filterName}
           data-content={f.node?.filterContent}
+          data-api-field={f.node?.filterToApiField}
         >
           {f.node?.filterName}
         </div>
@@ -182,6 +188,7 @@ export const Category = () => {
           onClick={handleClick}
           data-name={f.node?.filterName}
           data-content={f.node?.filterContent}
+          data-api-field={f.node?.filterToApiField}
         >
           {f.node?.filterName}
         </div>
@@ -197,6 +204,7 @@ export const Category = () => {
           onClick={handleClick}
           data-name={f.node?.filterName}
           data-content={f.node?.filterContent}
+          data-api-field={f.node?.filterToApiField}
         >
           {f.node?.filterName}
         </div>

@@ -80,6 +80,7 @@ export const CREATE_GROUP = gql`
                 id
                 filterName
                 filterContent
+                filterToApiField
               }
             }
           }
@@ -93,6 +94,43 @@ export const DELETE_FILTER_GROUP = gql`
   mutation DeleteFilterGroup($id: String!) {
     deleteFilterGroup(input: { id: $id }) {
       ok
+    }
+  }
+`;
+
+export const UPDATE_FILTER_GROUP = gql`
+  mutation UpdateFilterGroup(
+    $groupId: String!
+    $groupName: String
+    $filterDetails: [FilterDetailInputType]
+  ) {
+    updateFilterGroup(
+      input: {
+        groupId: $groupId
+        groupName: $groupName
+        filterDetails: $filterDetails
+      }
+    ) {
+      filterGroup {
+        id
+        groupName
+        state
+        filterDetails {
+          edges {
+            node {
+              id
+              firstArgument
+              secondArgument
+              filter {
+                id
+                filterName
+                filterContent
+                filterToApiField
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
